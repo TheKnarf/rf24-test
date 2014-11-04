@@ -55,7 +55,6 @@ role_e role = role_pong_back;
 
 const int buttonPin = 3;
 const int ourLed = 2;
-const int theirLed =  4;
 
 
 void setup(void)
@@ -63,8 +62,7 @@ void setup(void)
   //
   // Print preamble
   //
-  pinMode(ourLed, OUTPUT); 
-  pinMode(theirLed, OUTPUT);   
+  pinMode(ourLed, OUTPUT);  
   pinMode(buttonPin, INPUT);
   
   Serial.begin(57600);
