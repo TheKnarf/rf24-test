@@ -52,12 +52,21 @@ const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
 // The role of the current running sketch
 role_e role = role_pong_back;
 
+
+const int buttonPin = 3;
+const int ourLed = 2;
+const int theirLed =  4;
+
+
 void setup(void)
 {
   //
   // Print preamble
   //
-
+  pinMode(ourLed, OUTPUT); 
+  pinMode(theirLed, OUTPUT);   
+  pinMode(buttonPin, INPUT);
+  
   Serial.begin(57600);
   printf_begin();
   printf("\n\rRF24/examples/GettingStarted/\n\r");
@@ -122,7 +131,7 @@ void loop(void)
     radio.stopListening();
 
     // Take the time, and send it.  This will block until complete
-    unsigned long time = millis();
+    unsigned long time = digitalRead(buttonPin);
     printf("Now sending %lu...",time);
     bool ok = radio.write( &time, sizeof(unsigned long) );
     
@@ -151,7 +160,12 @@ void loop(void)
       // Grab the response, compare, and send to debugging spew
       unsigned long got_time;
       radio.read( &got_time, sizeof(unsigned long) );
-
+    
+      if (got_time > 0)
+        digitalWrite(ourLed, HIGH); 
+      else
+        digitalWrite(ourLed, LOW); 
+      
       // Spew it
       printf("Got response %lu, round-trip delay: %lu\n\r",got_time,millis()-got_time);
     }
